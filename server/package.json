@@ -8,9 +8,10 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
-    "socket.io-client": "^4.7.2",
     "node-modules": "^1.0.1",
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2"
   },
   "name": "server",
   "version": "1.0.0",
