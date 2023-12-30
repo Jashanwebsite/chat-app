@@ -6,8 +6,8 @@ mongoconnect();
 // Add this middleware to parse JSON in the request body
 app.use(express.json());
 
-app.use("/auth", require("./routes/auth/User"));
+app.use("/auth", require("./auth/User"));
 
 app.listen(5000, () => {
-  console.log(`chat app listening at http://localhost:${port}/auth/createuser`);
+  console.log(`chat app listening at http://localhost:${port}`);
 });
