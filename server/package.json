@@ -11,7 +11,8 @@
     "node-modules": "^1.0.1",
     "nodemon": "^3.0.2",
     "socket.io": "^4.7.2",
-    "socket.io-client": "^4.7.2"
+    "socket.io-client": "^4.7.2",
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.4.0"
   },
   "name": "server",
   "version": "1.0.0",
@@ -22,5 +23,9 @@
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "optionalDependencies": {
+    "bufferutil": "^4.0.8",
+    "utf-8-validate": "^5.0.10"
+  }
 }
