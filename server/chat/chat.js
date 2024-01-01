@@ -1,9 +1,10 @@
+const rooms = require("../schemas/rooms")
 module.exports = function(io){
   io.on("connection", (socket) => {
-    console.log(`user connected with ${socket.id}`)
-    socket.on("joined_room", (data) => {
+    socket.on("joined_room", async(room_id) => {
+      const  existroom = await rooms.findOne({room_id:room_id})
+      if(existroom){return console.log("user  existed")}
       socket.join(data)
-      console.log(` user with id ${socket.id} in room  ${data} `);
     })
     socket.on("sendmessage",(data)=>{
       console.log(data)
