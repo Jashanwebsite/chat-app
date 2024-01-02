@@ -10,7 +10,6 @@ function Chatbox(props) {
     if (username !== "" && room !== "") {
       socket.emit("joined_room", room)
     }
-
   }
   const onusername = (e) => {
     e.preventDefault();
@@ -34,7 +33,6 @@ function Chatbox(props) {
         message: currentmessage,
       }
        socket.emit("sendmessage", messagedata)
-      
     }
   }
   useEffect(()=>{
@@ -47,12 +45,9 @@ function Chatbox(props) {
 
       <div className='header'></div>
       <div className='body'>
-      <>
       <input type="text" name="input1" onChange={onusername} placeholder='enter username' id="" />
       <input type="text" name="input1" onChange={onroomname} placeholder='enter room' id="" />
       <button onClick={joinroom} type="submit" > join room</button>
-      <Chatbox room={room} socket={socket} username={username} />
-    </>
       </div>
       <div className='footer'>
         <input type="text" onChange={onchange} name="" id="" placeholder='live chat' />

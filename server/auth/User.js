@@ -22,7 +22,9 @@ router.post("/createuser", (req, res) => {
       password: secpass,
       email: email
     })
-    res.json({ newuser })
+     const id =  String(newuser._id)
+      const token = jwt.sign(id, "secretKey");
+      res.json({token, "user":newuser.name})
   });
 })
 
@@ -34,7 +36,7 @@ router.post("/login", async (req, res) => {
     }
     const userexist = await user.findOne({ "email": email })
     // console.log(userexist.password)
-    if (!userexist) { return res.sendStatus(404).statusMessage("sorry user doesnot exist") }
+    if (!userexist) { return res.sendStatus(404) }
     bcrypt.compare(password, userexist.password,async(err,result)=>{
       if(err){ return ()=>{ console.log(error), res.sendStatus(500)}}
       const id =  String(userexist._id)

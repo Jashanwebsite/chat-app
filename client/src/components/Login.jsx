@@ -1,18 +1,13 @@
 import React from 'react'
 import { useState } from 'react';
 import "./login-signup.css"
-// import Loder from "./Loder"
-// import { useContext } from 'react'
-// import noteContext from "../Context/Notecontext";
 import { Link, useNavigate } from "react-router-dom";
 function Login() {
-  const context = useContext(noteContext)
-  const { loder, setloder } = context;
   let navigate = useNavigate("")
   const host = "http://localhost:5000"
   const [credential, setcredentials] = useState({ email: "", password: "" })
   const handelclick = async (e) => {
-    setloder(true)
+    // setloder(true)
     e.preventDefault();
     const response = await fetch(`${host}/auth/login`, {
       method: "POST",
@@ -23,13 +18,15 @@ function Login() {
     });
     const json = await response.json()
 
-    if (json.authtoken) {
-      localStorage.setItem("token", json.authtoken)
-      setloder(false)
-      navigate("/home")
+    if (json.token) {
+      localStorage.setItem("token", json.token)
+      // setloder(false)
+      // navigate("/home")
+      localStorage.setItem("chat-token",json.token)
+      navigate("/chat")
      
     } else {
-      setloder(false)
+      // setloder(false)
       alert("please enter valid details")
 
     }
@@ -41,7 +38,7 @@ function Login() {
   }
 
   return (<>
-    {loder && <Loder></Loder>}
+    {/* {loder && <Loder></Loder>} */}
     <div className="signcontainer">
       <div className="login form">
         <header>Login</header>
