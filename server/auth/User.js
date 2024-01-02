@@ -1,5 +1,4 @@
 const express = require("express")
-// const mongouser = require("../schemas/User")
 const bcrypt = require("bcryptjs")
 const router = express.Router()
 const jwt = require("jsonwebtoken")

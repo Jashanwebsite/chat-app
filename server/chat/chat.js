@@ -14,5 +14,4 @@ module.exports = function(io){
       console.log(`user disconnected with id ${socket.id}`)
     })
   })
-  
 }

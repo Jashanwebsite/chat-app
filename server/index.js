@@ -9,6 +9,7 @@ mongoconnect();
 app.use(cors())
 app.use(express.json());
 app.use("/auth", require("./auth/User"));
+app.use("/room",require("./auth/findrooms"))
 const httpServer = require('http').createServer(app);
 const  io = new Server(httpServer, {
   cors: {
