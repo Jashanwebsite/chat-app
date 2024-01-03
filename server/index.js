@@ -10,6 +10,8 @@ app.use(cors())
 app.use(express.json());
 app.use("/auth", require("./auth/User"));
 app.use("/room",require("./auth/findrooms"))
+app.use("/messages",require("./auth/messages"))
+
 const httpServer = require('http').createServer(app);
 const  io = new Server(httpServer, {
   cors: {

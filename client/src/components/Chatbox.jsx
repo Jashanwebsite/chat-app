@@ -43,16 +43,49 @@ function Chatbox(props) {
   return (
     <>
 
-      <div className='header'></div>
-      <div className='body'>
-      <input type="text" name="input1" onChange={onusername} placeholder='enter username' id="" />
-      <input type="text" name="input1" onChange={onroomname} placeholder='enter room' id="" />
-      <button onClick={joinroom} type="submit" > join room</button>
-      </div>
-      <div className='footer'>
-        <input type="text" onChange={onchange} name="" id="" placeholder='live chat' />
-        <button onClick={sendmessage} type="button"> &#9658;</button>
-      </div>
+<body>
+    <div class="chat-container">
+        <div class="sidebar">
+            <div class="search-container">
+                <input class="search-input" type="text" placeholder="Search"/>
+            </div>
+            <div class="person-list">
+                <ul class="persons">
+                    <li class="person-name" onclick="classlist();">Jashhahsgabgl̥han</li>
+                    <li class="person-name" onclick="classlist();">Jashan</li>
+                  
+                </ul>
+            </div>
+        </div>
+        <div class="chat-section" id="chat-section">
+            <div class="header"></div>
+            <div class="body">
+                <ul class="messages">
+                    <li class="message" id="message">hlo</li>
+                
+                    <li class="message right" id="message">hlobro</li>
+                </ul>
+            </div>
+            <div class="footer">
+                <div class="footer-content">
+                    <input type="text" name="" placeholder="enter your message" id="sendbar" />
+                    <button class="button"   role="button">send</button>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    {/* <script>
+        var chat_section = document.getElementById("chat-section")
+        const classlist = () => {
+            if(!chat_section.classList.contains("d-none")){
+                chat_section.classList.add("d-none")
+            }
+            
+            // console.log(chat_section.classList)
+        }
+    </script> */}
+</body>
     </>
   );
 }

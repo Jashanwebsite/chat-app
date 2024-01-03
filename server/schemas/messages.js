@@ -2,7 +2,7 @@ const  mongoose = require("mongoose");
 const {Schema} = mongoose
 const messages = new Schema({
     to:{
-        type : mongoose.Schema.Types.ObjectId,
+        type :String,
         required:true
     },
     username:{
