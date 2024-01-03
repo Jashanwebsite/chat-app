@@ -1,13 +1,16 @@
 const mongoose = require("mongoose");
+const nanoid = require("nanoid")
 const { Schema } = mongoose
 const Room = new Schema({
     room_name: {
         type: String,
         required: true,
     }, 
-    room_id:{
-        type:String,
-        required : true
+    room_id: {
+        type: String,
+        default: () => nanoid.nanoid(20),
+        required: true,
+        unique: true
     },
     username: {
         type: String,
