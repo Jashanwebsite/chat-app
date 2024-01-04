@@ -9,9 +9,11 @@ body {
 }
 
 .chat-container {
+    /* top: 100px; */
     display: grid;
     grid-template-columns: 1fr 2fr;
-    height: 100vh;
+    height: calc(100vh) ;
+    min-height: 100%;
     background-color: #164863;
 }
 
@@ -25,24 +27,43 @@ body {
 }
 
 .search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 10%;
     padding-right: 10px;
     position: relative;
+    border: 2px solid #e2d1d1;
+    border-radius: 25px ;
+    margin-bottom: 20px;
+}
+.join_room_button{
+    box-shadow: inset 2px 2px 10px 10px #799cc9;
+    position: relative;
+    transition: box-shadow 500ms ease-out;
+    font-size: x-large;
+    margin-left: 2%;
+    height: 80%;
+    width: 10%;
+    border-radius: 15px;
+    outline: none;
+    border: 2px solid #F0ECE5;
+    background-color: transparent;
+}
+.join_room_button:hover{
+    box-shadow: inset 2px 2px 10px 10px #799cc9,2px 2px 10px 6px #799cc9;
 }
 
 .search-input {
-    width: 100%;
+    width: 80%;
     padding: 12px 24px;
     background-color: transparent;
-    font-size: 14px;
+    font-size: 17px;
     line-height: 18px;
-    color: #575756;
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-size: 18px 18px;
-    background-position: 95% center;
+    color: #ffffff;
     border-radius: 50px;
-    border: 1px solid #575756;
+    border: none;
+    /* border-bottom: 1px solid #575756; */
     transition: all 250ms ease-in-out;
 }
 
@@ -54,12 +75,10 @@ body {
 
 .search-input:hover,
 .search-input:focus {
-    padding: 12px 0;
-    outline: 0;
-    border: 1px solid transparent;
-    border-bottom: 1px solid #575756;
-    border-radius: 0;
-    background-position: 100% center;
+    border: none;
+     /* border-radius: 0;  */
+     outline: none;
+
 
 }
 
@@ -156,11 +175,12 @@ body {
     display: flex;
     justify-content: start;
     align-items: center;
-    height: 8vh;
+    height: auto;
     padding: 5px 5px;
     box-sizing: border-box;
-    width: max-content;
-    max-width: 50%;
+    /* text-justify: newspaper; */
+    width: auto;
+    max-width: 10%;
 }
 
 

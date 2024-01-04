@@ -10,7 +10,7 @@ const Room = new Schema({
         type: String,
         default: () => nanoid.nanoid(20),
         required: true,
-        unique: true
+
     },
     username: {
         type: String,
