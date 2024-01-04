@@ -1,35 +1,63 @@
 import { React, useState, useContext, useEffect } from 'react';
 import "./chatbox.css";
 // import { io } from "socket.io-client";
+import { Socket} from "./socket"
 import roomcontext from '../context/roomcontext';
 function Chatbox(props) {
+  
   const [joinrooms, setjoinroom] = useState("")
   const [user_id, setuser_id] = useState("")
   const [message,setmessage]=useState("")
-  // const socket = io("http://localhost:5000")
+  const [username,setusername]=useState("")
   const context = useContext(roomcontext)
   const { room, join_room, fetchroom, fetchmessages, room_messages,addmessages } = context;
   const [roomid, setroomid] = useState("");
-
-  const handeljoinclick = () => {
-    console.log("joinrooms")
+  const socket = Socket
+  // useeffect for recived messages as every time message recieved it will give me new message
+  useEffect(() => {
+    socket.on("recievedmessage", ((datamessage)=> {
+      console.log(room_messages)
+      console.log(datamessage)
+      addmessages(datamessage.room_id,datamessage.message)
+    }))
+    return function cleanup() {
+      socket.removeListener("recievedmessage");}
+}, [socket])
+//  for joining room  ---------------------------------------------------------------------------------------
+  const handeljoinclick = (e) => {
+    e.preventDefault()
     join_room({ room_id: joinrooms })
   }
-  const handelsendmessage=()=>{
-    console.log(message,roomid)
-    addmessages(roomid,message)
+  // dictionary for data message that vill be send to backkend
+  const datamessage ={
+    user : user_id,
+    message : message,
+    room_id : roomid,
+    username: username
   }
-  const handelmessageclick = (room_id,user_id) => () => {
+  //  for sending message to the backend and then to the room ------------------------------------------
+  const handelsendmessage=async(e)=>{
+    e.preventDefault();
+     console.log(message,roomid)
+    await socket.emit("sendmessage", datamessage )
+    
+  }
+//  handel   click for joining room and other functions  ---------------------------------------------
+  const handelmessageclick = (room_id,user_id,username) => (e) => {
+    e.preventDefault();
     setroomid(room_id);
     setuser_id(user_id)
+    socket.emit("joined_room", room_id)
+    console.log(room_id,user_id)
     fetchmessages(room_id);
   };
+  //  use effect for fetchroom
   useEffect(() => {
     fetchroom();
-  },
-    [])
+  },[])
 
   return (
+    // and here is html code
     <>
       <div className="chat-container">
         <div className="sidebar">
@@ -42,7 +70,7 @@ function Chatbox(props) {
               {room.map && room.map((room1) => {
                 return (
                   
-                  <li onClick={handelmessageclick(room1.room_id,room1.user_id)} className="person-name">
+                  <li onClick={handelmessageclick(room1.room_id,room1.user_id,room1.username)} className="person-name">
                     {room1.room_name}
                   </li>)
               })}
@@ -85,10 +113,6 @@ function Chatbox(props) {
 </div> */}
 
 export default Chatbox
-// start joiroom function      socket.emit("joined_room", room)
-//  for sending data  socket.emit("sendmessage", messagedata)
-// useEffect(() => {
-//   socket.on("recievedmessage", (data => {
-//     console.log(data)
-//   }))
-// }, [socket])
+// start joiroom function      
+//  for sending data 
+

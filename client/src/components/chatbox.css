@@ -178,9 +178,8 @@ body {
     height: auto;
     padding: 5px 5px;
     box-sizing: border-box;
-    /* text-justify: newspaper; */
-    width: auto;
-    max-width: 10%;
+    width: fit-content;
+    max-width: 50%;
 }
 
 

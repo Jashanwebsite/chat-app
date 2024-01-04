@@ -15,9 +15,9 @@ function App() {
         <BrowserRouter>
 
           <Routes>
-            <Route path={'/login'} element={<Login />} />
+            {!localStorage.getItem("token") && <Route path={'/'} element={<Login />} />}
             <Route path={'/Signup'} element={<Signup />} />
-            {localStorage && <Route path={'/home'} element={<Chatbox />} />}
+            {localStorage.getItem("token") && <Route path={'/'} element={<Chatbox />} />}
           </Routes>
 
         </BrowserRouter>

@@ -14,18 +14,18 @@ function roomstate(props) {
       }
     })
     const json = await response.json();
-    console.log(json)
+    //console.log(json)
     setuserid(json.user_id)
     setrooms(json)
   }
     const join_room = async(room_id) => {
-        // console.log(requestBody);
+        // //console.log(requestBody);
        const response = await fetch("http://localhost:5000/room/joinroom",{
         method: "Post",
         headers: {
           "Content-Type":"application/json",
           "token": localStorage.getItem("token"),
-        },body: JSON.stringify({"room_id":room_id})
+        },body: JSON.stringify({room_id:room_id})
         
       })
       const json = await response.json();
@@ -33,7 +33,7 @@ function roomstate(props) {
       };    
 
       const fetchmessages = async(room_id)=>{
-        // console.log(room_id)
+        // //console.log(room_id)
         const response = await fetch("http://localhost:5000/messages/fetchmessages",{
           method: "Post",
           headers: {
@@ -45,7 +45,7 @@ function roomstate(props) {
         setroom_messages(json)
       }
       const addmessages = async(to,message)=>{
-        console.log(to)
+        //console.log(to)
         const response = await fetch("http://localhost:5000/messages/addmessages",{
           method: "Post",
           headers: {
@@ -54,8 +54,7 @@ function roomstate(props) {
           },body: JSON.stringify({to:to,message:message})
         })
         const json = await response.json();
-        setroom_messages( room_messages.concat(json) )
-       
+        setroom_messages(prevMessages => [...prevMessages, json]);       
       }
 
       return (
