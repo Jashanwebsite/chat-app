@@ -1,2 +1,59 @@
 node_modules
 html
+# React Native
+/client_native/node_modules
+/client_native/ios/build/
+/client_native/ios/Pods/
+/client_native/android/build/
+/client_native/android/app/build/
+/client_native/*.jsbundle
+
+# Xcode
+/client_native/ios/*.pbxuser
+/client_native/ios/!default.pbxuser
+/client_native/ios/*.mode1v3
+/client_native/ios/!default.mode1v3
+/client_native/ios/*.mode2v3
+/client_native/ios/!default.mode2v3
+/client_native/ios/*.perspectivev3
+/client_native/ios/!default.perspectivev3
+/client_native/ios/xcuserdata/
+/client_native/ios/*.xccheckout
+/client_native/ios/*.moved-aside
+/client_native/ios/DerivedData/
+/client_native/ios/*.hmap
+/client_native/ios/*.ipa
+/client_native/ios/*.xcuserstate
+/client_native/ios/.xcode.env.local
+
+# Android/IntelliJ
+/client_native/android/build/
+/client_native/android/.idea/
+/client_native/android/.gradle/
+/client_native/android/local.properties
+/client_native/android/*.iml
+/client_native/android/*.hprof
+/client_native/android/.cxx/
+/client_native/android/*.keystore
+/client_native/android/!debug.keystore
+
+# node.js
+/client_native/node_modules/
+/client_native/npm-debug.log
+/client_native/yarn-error.log
+
+# fastlane
+/client_native/**/fastlane/report.xml
+/client_native/**/fastlane/Preview.html
+/client_native/**/fastlane/screenshots/
+/client_native/**/fastlane/test_output/
+
+# Ruby / CocoaPods
+/client_native/ios/Pods/
+/client_native/vendor/bundle/
+
+# Temporary files created by Metro to check the health of the file watcher
+/client_native/.metro-health-check*
+
+# testing
+/client_native/coverage/
