@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "client_native",
+    "slug": "clientnative",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "df5de4d3-2bff-4fa8-a3b2-0a88b97c8180"
+      }
+    },
+    "owner": "jashanwebsite"
+  }
+}
