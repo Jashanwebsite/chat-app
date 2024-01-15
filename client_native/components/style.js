@@ -1,22 +1,24 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet ,PointProp} from "react-native";
 const dimention =Dimensions.get("screen")
+console.log(dimention)
 const style = StyleSheet.create({
   layout: {
-    minHeight: dimention.height + 10,
+    minHeight: dimention.height,
+    // maxHeight: dimention.height,
     width: "100%",
     backgroundColor: "#212121",
     flex: 1,
     flexDirection: "row",
   },
   slider: {
-    // marginTop: 36,
+    display:"flex",
     height: "100%",
     flex: 1,
     backgroundColor: "#2a2d34",
     // boxShadow:"inset 0px 20px 20px #474e56",
   },
   slider_header: {
-    paddingHorizontal: "8%",
+    paddingHorizontal: "2%",
     marginTop: "8%",
     height: "8%",
     width: "100%",
@@ -24,22 +26,41 @@ const style = StyleSheet.create({
     flexDirection: "row",
   },
   slider_button_header: {
+    paddingHorizontal:"0%",
     backgroundColor: "#2B2E35",
     alignSelf: "flex-start",
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "center",
+    flexDirection:"row",
     height: "100%",
-    aspectRatio: 1,
+    width:"75%",
     shadowColor: "#ffffff",
     shadowOffset: {
       width: 0,
       height: 0,
     },
-    shadowOpacity: 0,
+    shadowOpacity: 1,
     shadowRadius: 27,
     elevation: 8,
-    borderRadius: 20,
+    borderRadius: 50,
+    image:{
+      height:"100%",
+      aspectRatio:1,
+      borderRadius:50
+    },
+    text_view:{
+      flex:1,
+      height:"100%",
+      display:"flex",
+      alignItems:"center",
+      justifyContent:"center",
+      text:{
+        fontSize:25,
+        fontWeight:500,
+        color:"white"
+      }
+    }
   },
   slider_search_header: {
     shadowColor: "#f7eeee",
@@ -83,7 +104,7 @@ const style = StyleSheet.create({
     marginTop: "2%",
     // backgroundColor: "#7e3030",
     paddingHorizontal: "4%",
-    height: "8%",
+    height: "6%",
     width: "100%",
     joinroom_button: {
       display: "flex",
@@ -99,13 +120,12 @@ const style = StyleSheet.create({
       },
     },
     create_button: {
+      // Height:"1%",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      height: "90%",
-      width: "20%",
-  
-      aspectRatio: 1,
+      height: "100%",
+      aspectRatio:1,
       borderRadius:25 ,
       backgroundColor: "#2B2E35",  // Red color
       shadowColor: "#f7eeee",
@@ -124,24 +144,31 @@ const style = StyleSheet.create({
     },
   },  listContainer: {
     marginTop:"2%",
-    flex: 1, 
+    flex: 1 - 0.11, 
+    height:dimention.height * 0.9,
     width: "100%",
+    // backgroundColor:"red",
     list:{
-      marginVertical:"2%",
-      height:"10%",
+      paddingVertical:"1%",
+      marginVertical:"1%",
+      // backgroundColor:"green",
+      minHeight: dimention.height * 0.08,
       width:"100%",
+      flex:1,
       display:"flex",
       flexDirection:"row"
     }
   },
   list_top:{
     height:"100%",
-    width:"15%",
-    
+    aspectRatio:1,
+    paddingLeft:"1%",
     image:{
       height:"100%",
+      overflow:"hidden",
+      height:"100%",
       width:"100%",
-      borderRadius:100
+      borderRadius:50
     }
   },
   list_middle:{
@@ -185,7 +212,13 @@ const style = StyleSheet.create({
   },
   hover:{
     opacity:0.5,
+  },
+  footer:{
+    position:"fixed",
+    height:dimention.height * 0.001,
+    width:"100%",
+    // backgroundColor:"pink",
+    alignSelf:"flex-end",
   }
-
 });
 export default style;
