@@ -6,8 +6,7 @@ import {
   Pressable,
   StatusBar,
   SafeAreaView,
-  Dimensions,
-  ScrollView,
+  
   TextInput,
   FlatList,
   Image,
@@ -20,6 +19,7 @@ const LayoutSlider = ({navigation}) => {
     setislisthover(itemId);
   };
   const onpress =()=>{navigation.navigate("Chat")} 
+  const onlogin =()=>{navigation.navigate("login")} 
   const on_list_hover_end = () => {
     setislisthover(null);
   };
@@ -50,6 +50,7 @@ const LayoutSlider = ({navigation}) => {
           </View>
           <View style={style.slider_joinroom_button}>
             <LinearGradient
+             
               style={style.slider_joinroom_button.joinroom_button}
               colors={["#84c6f8", "#6498fc", "#4d75fe"]}
               start={{ x: 0.1, y: 0.5 }}
@@ -59,7 +60,7 @@ const LayoutSlider = ({navigation}) => {
                 placeholder="Join room"
               ></TextInput>
             </LinearGradient>
-            <Pressable style={style.slider_joinroom_button.create_button}>
+            <Pressable style={style.slider_joinroom_button.create_button}  onPress={onlogin}>
               <Text style={style.slider_joinroom_button.create_button.text}>
                 +
               </Text>
