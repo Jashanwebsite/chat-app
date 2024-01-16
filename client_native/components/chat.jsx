@@ -73,7 +73,6 @@ const ChatMessage = () => {
       <KeyboardAwareScrollView
         contentContainerStyle={styles.content}
         extraScrollHeight={-220}
-        // Adjust this value as needed
         enableOnAndroid
       >
         <FlatList
@@ -96,7 +95,7 @@ const ChatMessage = () => {
           <TextInput
             onChangeText={(text) => {
               setnewmessage({ id: "10", message: text, sender: "user" });
-            }}
+            }} 
             spellCheck={true}
             placeholderTextColor={"white"}
             style={styles.TextInput}

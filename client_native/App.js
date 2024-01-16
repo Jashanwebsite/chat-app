@@ -4,12 +4,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import LayoutSlider from "./components/layout";
 import ChatMessage from "./components/chat";
+import LoginForm from "./components/login";
+import Signup from "./components/Signup";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Signup">
         <Stack.Screen
           name="Home"
           options={{
@@ -21,6 +23,16 @@ export default function App() {
           name="Chat"
           options={{ headerShown: false }}
           component={ChatMessage}
+        ></Stack.Screen>
+         <Stack.Screen
+          name="Signup"
+          options={{ headerShown: false }}
+          component={Signup}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="login"
+          options={{ headerShown: false }}
+          component={LoginForm}
         ></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
