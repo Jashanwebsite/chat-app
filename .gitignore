@@ -7,7 +7,7 @@ html
 /client_native/android/build/
 /client_native/android/app/build/
 /client_native/*.jsbundle
-
+.env
 # Xcode
 /client_native/ios/*.pbxuser
 /client_native/ios/!default.pbxuser

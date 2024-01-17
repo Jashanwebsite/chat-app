@@ -3,7 +3,8 @@ const { Server } = require("socket.io");
 const mongoconnect = require("./db");
 const cors = require("cors");
 const app = express();
-const port = 5000;
+require("dotenv").config()
+
 const user = {}
 mongoconnect();
 app.use(cors())
@@ -21,7 +22,8 @@ const  io = new Server(httpServer, {
   , transports: ["websocket", "polling"]
 });
 require("./chat/chat")(io)
-
-httpServer.listen(5000, () => {
+const port = process.env.port 
+// console.log()
+httpServer.listen(port, () => {
   console.log(`Chat app listening at http://localhost:${port}`);
 })

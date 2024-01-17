@@ -59,8 +59,7 @@ const LoginForm = ({navigation}) => {
           secureTextEntry={true}
           placeholder="Enter your password"
         />
-        <TouchableOpacity style={styles.button} onPress={handelclick} >
-        <TouchableOpacity style={styles.button} >
+        <TouchableOpacity style={styles.button} onPress={handelclick}  >
           <Text style={{ color: '#fff', fontSize: 17, fontWeight: '500', letterSpacing: 1 }}>Login</Text>
         </TouchableOpacity> 
         <View style={styles.signup}>

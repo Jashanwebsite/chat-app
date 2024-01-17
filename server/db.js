@@ -1,5 +1,6 @@
 const mongo = require("mongoose")
-const MongoUri = "mongodb://localhost:27017/chat"
+require("dotenv").config();
+const MongoUri = process.env.MongoUri
 const mongoconnect= async()=>{
     try {
         await mongo.connect(MongoUri)
