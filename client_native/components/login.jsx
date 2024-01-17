@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
 import styles from "./loginstyles"
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 // import { useNavigation } from 'react-router-native';
 const LoginForm = ({navigation}) => {
   const [credential, setCredential] = useState({ email: '', password: '' });
@@ -34,13 +36,12 @@ const LoginForm = ({navigation}) => {
       // setloder(false)
       alert("please enter valid details")
 
-    }
-  }
+  };
   const onPress = () => {
     // Your login logic here
     navigation.navigate("Signup")
   };
-
+  }
   return (
     <SafeAreaView style={styles.signcontainer}>
       <View style={styles.form}>
@@ -59,6 +60,7 @@ const LoginForm = ({navigation}) => {
           placeholder="Enter your password"
         />
         <TouchableOpacity style={styles.button} onPress={handelclick} >
+        <TouchableOpacity style={styles.button} >
           <Text style={{ color: '#fff', fontSize: 17, fontWeight: '500', letterSpacing: 1 }}>Login</Text>
         </TouchableOpacity> 
         <View style={styles.signup}>
