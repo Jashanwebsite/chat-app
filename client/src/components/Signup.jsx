@@ -12,24 +12,24 @@ function Signup() {
     let navigate = useNavigate("")
     const host = "http://localhost:5000"
    const[credential,setcredentials] =  useState({email:"",password:"",name:""})
-    const handelclick = async(e) => {
-      // setloder(true)
-        e.preventDefault();
-        const response = await fetch(`${host}/auth/createuser`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({"email":credential.email,"name":credential.name,"password":credential.password}),
-          });
-          const json = await response.json()
-          if (json.token){
-            console.log(json.token)
-            navigate("/login")
-          }else{
-            console.log("error in signup in signup.jsx")
-          }// setloder(false)
-      }
+   const handelclick = async(e) => {
+    // setloder(true)
+      e.preventDefault();
+      const response = await fetch(`${host}/auth/createuser`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({"email":credential.email,"name":credential.name,"password":credential.password}),
+        });
+        const json = await response.json()
+        if (json.token){
+          console.log(json.token)
+          navigate("/login")
+        }else{
+          console.log("error in signup in signup.jsx")
+        }// setloder(false)
+    }
       const onchange = (e) => {
         setcredentials({ ...credential, [e.target.name]: e.target.value })
       }

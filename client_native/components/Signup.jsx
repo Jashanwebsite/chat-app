@@ -4,7 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, Dimensions,StatusBar, SafeArea
 import styles from "./loginstyles"
 // import { StatusBar } from 'expo-status-bar';
 const Signup = ({navigation}) => {
-  const [credential, setCredential] = useState({ email: '', password: '' });
+  const [credential, setCredential] = useState({ email: '', password: '' ,name:""});
 
   const onChange = (name, value) => {
     setCredential((prev) => ({ ...prev, [name]: value }));
@@ -13,10 +13,25 @@ const Signup = ({navigation}) => {
     console.log("signcontainer")
     navigation.navigate("login")
   }
-  const handleClick = () => {
-    // Your login logic here
-  };
-
+  const host = "https://chat-backend-6h01.onrender.com";  
+    const handelclick = async(e) => {
+    // setloder(true)
+      e.preventDefault();
+      const response = await fetch(`${host}/auth/createuser`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({"email":credential.email,"name":credential.name,"password":credential.password}),
+        });
+        const json = await response.json()
+        if (json.token){
+          console.log(json.token)
+          navigation.navigate("Home")
+        }else{
+          console.log("error in signup in signup.jsx")
+        }// setloder(false)
+    }
   return (
 
     <SafeAreaView style={styles.signcontainer}>
@@ -27,8 +42,8 @@ const Signup = ({navigation}) => {
         <Text style={styles.header}>Signup</Text>
         <TextInput
           style={styles.input}
-          onChangeText={(text) => onChange('password', text)}
-          value={credential.password}
+          onChangeText={(text) => onChange('name', text)}
+          value={credential.name}
         //   secureTextEntry={true}
           placeholder="Enter your Name"
         />
