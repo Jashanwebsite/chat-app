@@ -3,20 +3,24 @@
     "version": ">= 5.9.3"
   },
   "build": {
-
     "development": {
       "distribution": "internal",
       "android": {
+        "buildType": "apk",
         "gradleCommand": ":app:assembleDebug"
       },
       "ios": {
         "buildConfiguration": "Debug"
-      }
+      },
+      "channel": "development"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "channel": "preview"
     },
-    "production": {}
+    "production": {
+      "channel": "production"
+    }
   },
   "submit": {
     "production": {}
