@@ -12,7 +12,7 @@ const LoginForm = ({navigation}) => {
     setCredential((prev) => ({ ...prev, [name]: value }));
     console.log(credential.email)
   };
-   const host = "http://192.168.1.68:5000";
+   const host = "https://chat-backend-6h01.onrender.com";
   const handelclick = async (e) => {
     // setloder(true)
     e.preventDefault();
@@ -27,7 +27,6 @@ const LoginForm = ({navigation}) => {
     const json = await response.json()
 
     if (json.token) {
-      // localStorage.setItem("token", json.token)
       AsyncStorage.setItem("chat-token",json.token)
       navigation.navigate("Home")
       console.log(json.token)
