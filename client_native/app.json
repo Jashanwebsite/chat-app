@@ -16,6 +16,9 @@
     "updates": {
       "url": "https://u.expo.dev/df5de4d3-2bff-4fa8-a3b2-0a88b97c8180"
     },
+    "secrets": {
+      "apiKey": "https://chat-backend-6h01.onrender.com"
+    },
     "ios": {}
   }
 }

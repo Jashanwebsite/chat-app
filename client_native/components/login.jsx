@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import Config from "react-native-config";
 import {Api_key} from "@env"
+import Constants from 'expo-constants';
+
+const apiKey = Constants.manifest.secrets.apiKey;
 
 import { View, Text, TextInput, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
 import styles from "./loginstyles"
@@ -14,7 +17,7 @@ const LoginForm = ({navigation}) => {
     console.log(credential.email)
     console.log(Api_key)
   };
-   const host = Api_key
+   const host = apiKey
   const handelclick = async (e) => {
     // setloder(true)
     e.preventDefault();

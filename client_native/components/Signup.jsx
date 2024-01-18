@@ -1,3 +1,4 @@
+import Constants from 'expo-constants';
 import React, { useState } from 'react';
 import { Route } from 'react-router-native';
 import { View, Text, TextInput, TouchableOpacity, Dimensions,StatusBar, SafeAreaView } from 'react-native';
@@ -15,7 +16,10 @@ const Signup = ({navigation}) => {
     navigation.navigate("login")
   }
 
-  const host = Api_key  
+// Access the API key
+const apiKey = Constants.manifest.secrets.apiKey;
+
+  const host = apiKey 
   const handelclick = async(e) => {
     // setloder(true)
       e.preventDefault();

@@ -5,8 +5,7 @@
   "build": {
     "test": {
       "env": {
-        "Api_key":"https://chat-backend-6h01.onrender.com",
-        "APP_NAME": "My App (Test)"
+        "Api_key":"https://chat-backend-6h01.onrender.com"
       }
     },
     "development": {
