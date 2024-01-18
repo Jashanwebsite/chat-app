@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
+import Config from "react-native-config";
+import {Api_key} from "@env"
 
-require("dotenv").config()
 import { View, Text, TextInput, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
 import styles from "./loginstyles"
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
-require("dotenv").config();
 // import { useNavigation } from 'react-router-native';
 const LoginForm = ({navigation}) => {
   const [credential, setCredential] = useState({ email: '', password: '' });
@@ -13,8 +12,9 @@ const LoginForm = ({navigation}) => {
   const onChange = (name, value) => {
     setCredential((prev) => ({ ...prev, [name]: value }));
     console.log(credential.email)
+    console.log(Api_key)
   };
-   const host = env.Api_Key || "https://chat-backend-6h01.onrender.com"
+   const host = Api_key
   const handelclick = async (e) => {
     // setloder(true)
     e.preventDefault();
@@ -24,7 +24,7 @@ const LoginForm = ({navigation}) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ "email": credential.email, "password": credential.password }),
+      body: JSON.stringify({"email": credential.email, "password": credential.password }),
     });
     const json = await response.json()
 
@@ -38,11 +38,10 @@ const LoginForm = ({navigation}) => {
       alert("please enter valid details")
 
   };
-  const onPress = () => {
-    // Your login logic here
+  }
+  const onpress = () => {
     navigation.navigate("Signup")
   };
-  }
   return (
     <SafeAreaView style={styles.signcontainer}>
       <View style={styles.form}>
@@ -63,8 +62,8 @@ const LoginForm = ({navigation}) => {
         <TouchableOpacity style={styles.button} onPress={handelclick}  >
           <Text style={{ color: '#fff', fontSize: 17, fontWeight: '500', letterSpacing: 1 }}>Login</Text>
         </TouchableOpacity> 
-        <View style={styles.signup}>
-        <Text onPress={onPress} style={styles.signupText}>
+        <View style={styles.signup} >
+        <Text onPress={onpress} style={styles.signupText}>
           Don't have an account? Signup
         </Text>
       </View>

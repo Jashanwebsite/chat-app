@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Route } from 'react-router-native';
 import { View, Text, TextInput, TouchableOpacity, Dimensions,StatusBar, SafeAreaView } from 'react-native';
 import styles from "./loginstyles"
+import {Api_key} from "@env"
 // import { StatusBar } from 'expo-status-bar';
 const Signup = ({navigation}) => {
   const [credential, setCredential] = useState({ email: '', password: '' ,name:""});
@@ -13,10 +14,12 @@ const Signup = ({navigation}) => {
     console.log("signcontainer")
     navigation.navigate("login")
   }
-  const host = "https://chat-backend-6h01.onrender.com";  
-    const handelclick = async(e) => {
+
+  const host = Api_key  
+  const handelclick = async(e) => {
     // setloder(true)
       e.preventDefault();
+      console.log("button pressed")
       const response = await fetch(`${host}/auth/createuser`, {
           method: "POST",
           headers: {
@@ -60,7 +63,7 @@ const Signup = ({navigation}) => {
           secureTextEntry={true}
           placeholder="Enter your password"
         />
-        <TouchableOpacity style={styles.button} onPress={handleClick}>
+        <TouchableOpacity style={styles.button} onPress ={handelclick} >
           <Text style={{ color: '#fff', fontSize: 17, fontWeight: '500', letterSpacing: 1 }}>Login</Text>
         </TouchableOpacity> 
         <View style={styles.signup}>
