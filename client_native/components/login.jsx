@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+
+require("dotenv").config()
 import { View, Text, TextInput, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
 import styles from "./loginstyles"
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { env } from 'node:process'
 // import { useNavigation } from 'react-router-native';
 const LoginForm = ({navigation}) => {
   const [credential, setCredential] = useState({ email: '', password: '' });
@@ -12,7 +14,7 @@ const LoginForm = ({navigation}) => {
     setCredential((prev) => ({ ...prev, [name]: value }));
     console.log(credential.email)
   };
-   const host = "https://chat-backend-6h01.onrender.com";
+   const host = env.Api_Key || "https://chat-backend-6h01.onrender.com"
   const handelclick = async (e) => {
     // setloder(true)
     e.preventDefault();

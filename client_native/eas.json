@@ -3,11 +3,16 @@
     "version": ">= 5.9.3"
   },
   "build": {
+    "test": {
+      "env": {
+        "Api_key":"https://chat-backend-6h01.onrender.com",
+        "APP_NAME": "My App (Test)"
+      }
+    },
     "development": {
       "distribution": "internal",
       "buildType": "apk",
       "android": {
-        
         "gradleCommand": ":app:assembleDebug"
       },
       "ios": {
@@ -20,7 +25,8 @@
       "channel": "preview"
     },
     "production": {
-      "channel": "production"
+      "channel": "production",
+      "autoIncrement":true
     }
   },
   "submit": {
