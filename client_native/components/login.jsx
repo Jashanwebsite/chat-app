@@ -5,7 +5,7 @@ import { View, Text, TextInput, TouchableOpacity, Dimensions, SafeAreaView } fro
 import styles from "./loginstyles"
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { env } from 'node:process'
+require("dotenv").config();
 // import { useNavigation } from 'react-router-native';
 const LoginForm = ({navigation}) => {
   const [credential, setCredential] = useState({ email: '', password: '' });
