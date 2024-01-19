@@ -4,6 +4,7 @@ import { Route } from 'react-router-native';
 import { View, Text, TextInput, TouchableOpacity, Dimensions,StatusBar, SafeAreaView } from 'react-native';
 import styles from "./loginstyles"
 import {Api_key} from "@env"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { StatusBar } from 'expo-status-bar';
 const Signup = ({navigation}) => {
   const [credential, setCredential] = useState({ email: '', password: '' ,name:""});
@@ -17,7 +18,7 @@ const Signup = ({navigation}) => {
   }
 
 // Access the API key
-const apiKey = Constants.manifest.secrets.apiKey;
+const apiKey = process.env.Api_key || Constants.manifest.secrets.apiKey;
 
   const host = apiKey 
   const handelclick = async(e) => {
@@ -33,7 +34,7 @@ const apiKey = Constants.manifest.secrets.apiKey;
         });
         const json = await response.json()
         if (json.token){
-          console.log(json.token)
+          AsyncStorage.setItem("chat",json.token)
           navigation.navigate("Home")
         }else{
           console.log("error in signup in signup.jsx")

@@ -40,7 +40,7 @@ router.post("/login", async (req, res) => {
       if(err){ return ()=>{ console.log(error), res.sendStatus(500)}}
       const id =  String(userexist._id)
       const token = jwt.sign(id, "secretKey");
-      res.json({token, "user":userexist.name})
+      res.json({token, "user":userexist.name,"user_id":userexist.user_id})
 
     })
   }

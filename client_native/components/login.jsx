@@ -1,25 +1,23 @@
-import React, { useState } from 'react';
-import Config from "react-native-config";
+import React, { useRef, useState } from 'react';
 import {Api_key} from "@env"
 import Constants from 'expo-constants';
-
-const apiKey = Constants.manifest.secrets.apiKey;
-
-import { View, Text, TextInput, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
+import { View, Text, TextInput,Alert, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
 import styles from "./loginstyles"
+// import RNSecureKeyStore, { ACCESSIBLE } from "react-native-secure-key-store";
+// import MMKV from 'react-native-mmkv-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import MMKVStorage from 'react-native-mmkv-storage';
 // import { useNavigation } from 'react-router-native';
 const LoginForm = ({navigation}) => {
   const [credential, setCredential] = useState({ email: '', password: '' });
-
   const onChange = (name, value) => {
     setCredential((prev) => ({ ...prev, [name]: value }));
     console.log(credential.email)
     console.log(Api_key)
   };
-   const host = apiKey
+  const apiKey = process.env.Api_key|| Constants.secrets.apiKey  
+  const host =  apiKey
   const handelclick = async (e) => {
-    // setloder(true)
     e.preventDefault();
     console.log(credential)
     const response = await fetch(`${host}/auth/login`, {
@@ -29,19 +27,23 @@ const LoginForm = ({navigation}) => {
       },
       body: JSON.stringify({"email": credential.email, "password": credential.password }),
     });
-    const json = await response.json()
-
-    if (json.token) {
-      AsyncStorage.setItem("chat-token",json.token)
+    
+    const json = await response.json();
+    if  (await json.token) {
+      await AsyncStorage.setItem("chat",json.token)
+      await AsyncStorage.setItem("user_id",json.user_id)
+      console.log(AsyncStorage.getItem("chat"))
       navigation.navigate("Home")
-      console.log(json.token)
+      
      
     } else {
-      // setloder(false)
+
+      // Alert.alert()
       alert("please enter valid details")
 
   };
   }
+  const alertref = useRef(null)
   const onpress = () => {
     navigation.navigate("Signup")
   };

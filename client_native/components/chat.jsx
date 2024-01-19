@@ -1,13 +1,43 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { View, Text, TextInput,Keyboard, FlatList, SafeAreaView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import InsetShadow from "react-native-inset-shadow";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "./chatstyle";
 import Header from "./Header";
+import Roomcontext from "./context/roomcontext";
+import { Socket } from "./socket";
 
 const ChatMessage = () => {
+  const socket = Socket
+  const context = useContext(Roomcontext)
+  const {selctedroomid,room_messages,addmessages,user_id}= context;
+  //  for sending message to the backend and then to the room ------------------------------------------
+  const handelsendmessage=async(e)=>{
+    e.preventDefault();
+     console.log(message,roomid)
+    await socket.emit("sendmessage", datamessage )
+    
+  }
+    // dictionary for data message that vill be send to backkend
+    // const datamessage ={
+    //   user : user_id,
+    //   message : message,
+    //   room_id : roomid,
+    //   username: username
+    // }
+  // useffect for recived messages as every time message recieved it will give me new message
   useEffect(() => {
+    socket.on("recievedmessage", ((datamessage)=> {
+      console.log(room_messages)
+      console.log(datamessage)
+      addmessages(datamessage.room_id,datamessage.message)
+    }))
+    return function cleanup() {
+      socket.removeListener("recievedmessage");}
+}, [socket])
+  useEffect(() => {
+   console.log( "user_id",user_id)
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       (event) => {
@@ -26,28 +56,8 @@ const ChatMessage = () => {
     message: "",
     sender: "",
   });
-  const [data, setdata] = useState([
-    { id: "1", message: "Hello!", sender: "user" },
-    { id: "2", message: "Hi there!", sender: "other" },
-    { id: "3", message: "Hi there!", sender: "other" },
-    // { id: '1', message: 'Hello!', sender: 'user' },
-    // { id: '2', message: 'Hi there!', sender: 'other' },
-    // { id: '3', message: 'Hi there!', sender: 'other' },
-    // { id: '1', message: 'Hello!', sender: 'user' },
-    // { id: '2', message: 'Hi there!', sender: 'other' },
-    // { id: '3', message: 'Hi there!', sender: 'other' },
-    // { id: '1', message: 'Hello!', sender: 'user' },
-    // { id: '2', message: 'Hi there!', sender: 'other' },
-    // { id: '3', message: 'hi ', sender: 'other' },
-    // { id: '2', message: 'Hi there!', sender: 'other' },
-    // { id: '3', message: 'Hi there!', sender: 'other' },
-    // { id: '1', message: 'Hello!', sender: 'user' },
-    // { id: '2', message: 'Hi there!', sender: 'other' },
-    // { id: '3', message: 'Hi there!', sender: 'other' },
-    // { id: '1', message: 'Hello!', sender: 'user' },
-    // { id: '2', message: 'Hi there!', sender: 'other' },
-    // { id: '3', message: 'last', sender: 'other' },
-  ]);
+  const data = room_messages
+  // -------------------------------------new 
   const ref = useRef();
   const onclick = () => {
     setdata([...data, newmessage]);
@@ -58,11 +68,12 @@ const ChatMessage = () => {
     console.log(newmessage);
   }, [newmessage]);
   const renderItem = ({ item }) => (
-    <View
-      style={item.sender === "user" ? styles.userMessage : styles.otherMessage}
+     <View
+      style={item.from === user_id ? styles.userMessage : styles.otherMessage}
     >
       <Text style={styles.messageText}>{item.message}</Text>
     </View>
+    
   );
 
   return (
@@ -78,7 +89,7 @@ const ChatMessage = () => {
         <FlatList
           ref={ref}
           data={data}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
           renderItem={renderItem}
         />
       </KeyboardAwareScrollView>
