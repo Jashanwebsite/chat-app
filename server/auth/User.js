@@ -23,7 +23,7 @@ router.post("/createuser", (req, res) => {
     })
      const id =  String(newuser._id)
       const token = jwt.sign(id, "secretKey");
-      res.json({token, "user":newuser.name})
+      res.json({token, "user":newuser.name,"user_id":newuser._id})
   });
 })
 
@@ -37,10 +37,10 @@ router.post("/login", async (req, res) => {
     // console.log(userexist.password)
     if (!userexist) { return res.sendStatus(404) }
     bcrypt.compare(password, userexist.password,async(err,result)=>{
-      if(err){ return ()=>{ console.log(error), res.sendStatus(500)}}
+      if(err){ return ()=>{ console.log(err), res.sendStatus(500)}}
       const id =  String(userexist._id)
       const token = jwt.sign(id, "secretKey");
-      res.json({token, "user":userexist.name,"user_id":userexist.user_id})
+      res.json({token, "user":userexist.name,"user_id":userexist._id})
 
     })
   }
