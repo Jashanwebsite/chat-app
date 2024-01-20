@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import {Api_key} from "@env"
 import Constants from 'expo-constants';
 import { View, Text, TextInput,Alert, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
@@ -7,8 +7,11 @@ import styles from "./loginstyles"
 // import MMKV from 'react-native-mmkv-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MMKVStorage from 'react-native-mmkv-storage';
+import Roomcontext from './context/roomcontext';
 // import { useNavigation } from 'react-router-native';
 const LoginForm = ({navigation}) => {
+  const context = useContext(Roomcontext)
+  const {setuserid} = context;
   const [credential, setCredential] = useState({ email: '', password: '' });
   const onChange = (name, value) => {
     setCredential((prev) => ({ ...prev, [name]: value }));
@@ -30,12 +33,11 @@ const LoginForm = ({navigation}) => {
     
     const json = await response.json();
     if  (await json.token) {
-      await AsyncStorage.setItem("chat",json.token)
-      await AsyncStorage.setItem("user_id",json.user_id)
-      console.log(AsyncStorage.getItem("chat"))
-      navigation.navigate("Home")
-      
-     
+      console.log(json)
+       await AsyncStorage.clear()
+       await AsyncStorage.setItem("chat",json.token)
+       await AsyncStorage.setItem("user_id", JSON.stringify(json.user_id));
+       navigation.navigate("Home")
     } else {
 
       // Alert.alert()

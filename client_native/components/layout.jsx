@@ -1,11 +1,10 @@
 import style from "./style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Socket } from "./socket";
+import {login_room_id} from "./state/action-creators/index"
 import React, {
-  Component,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import { LinearGradient } from "expo-linear-gradient";
@@ -23,6 +22,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import roomcontext from "./context/roomcontext";
+import { useDispatch } from "react-redux";
 
 const LayoutSlider = ({ navigation }) => {
   const [joinrooms, setjoinroom] = useState("");
@@ -33,32 +33,28 @@ const LayoutSlider = ({ navigation }) => {
     room,
     join_room,
     fetchroom,
-    fetchmessages,
-    room_messages,
-    addmessages,
   } = context;
   const socket = Socket;
-
   //  for joining room  ---------------------------------------------------------------------------------------
   const handeljoinclick = (e) => {
     e.preventDefault();
     join_room({ room_id: joinrooms });
   };
-
+  
+  const despatch = useDispatch();
   //  handel   click for joining room and other functions  ---------------------------------------------
   const handelmessageclick = (room_id) => (e) => {
   e.preventDefault();
-  setselectedroomid(room_id);
-  socket.emit("joined_room", room_id);
-  fetchmessages(selectedroomid);
-  console.log(selectedroomid);
-  navigation.navigate("Chat");
+  // setselectedroomid(room_id);
+  // socket.emit("joined_room", room_id);
+  console.log("room_id", room_id)
+  despatch(login_room_id(room_id))
+   navigation.navigate("Chat");
 };
-
   //  use effect for fetchroom
   useEffect(() => {
     fetchroom();
-    console.log(room);
+    console.log( "room",room);
   }, []);
 
   const [islisthover, setislisthover] = useState(null);

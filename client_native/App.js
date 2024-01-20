@@ -3,16 +3,17 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useEffect ,useState} from "react";
 import LayoutSlider from "./components/layout";
 import ChatMessage from "./components/chat";
-// import RNSecureKeyStore from "react-native-secure-key-store";
 import LoginForm from "./components/login";
 import Signup from "./components/Signup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Roomstate from "./components/context/roomstate";
-// import secureKeystore from "react-native-secure-key-store";
+import Header from "./components/Header";
+import { Provider } from "react-redux";
+import { store } from "./components/state/store";
 
 const Stack = createNativeStackNavigator();
 
-const App = () => {
+const Appredux = () => {
   const [initialRoute, setInitialRoute] = useState("loading");
 
   useEffect(() => {
@@ -42,6 +43,7 @@ const App = () => {
   }
 
   return (
+    // <Provider store={store} >
     <Roomstate>
     <NavigationContainer>
       <Stack.Navigator initialRouteName={initialRoute}>
@@ -58,6 +60,11 @@ const App = () => {
           component={ChatMessage}
         />
         <Stack.Screen
+          name="header"
+          options={{ headerShown: false }}
+          component={Header}
+        />
+        <Stack.Screen
           name="Signup"
           options={{ headerShown: false }}
           component={Signup}
@@ -70,6 +77,7 @@ const App = () => {
       </Stack.Navigator>
     </NavigationContainer>
     </Roomstate>
+
   );
 };
 
@@ -81,4 +89,4 @@ const LoadingScreen = () => {
   );
 };
 
-export default App;
+export default Appredux;

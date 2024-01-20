@@ -21,12 +21,21 @@ function roomstate(props) {
           token: await AsyncStorage.getItem("chat"),
         },
       });
+    
+      if (!response.ok) {
+        console.error(`Server responded with status ${response.status}`);
+        return;
+      }
+    
       const json = await response.json();
-      setuserid(await AsyncStorage.getItem("user_id"))
+      console.log("JSON Response:", json);
+    
+      // setuserid(await AsyncStorage.getItem("user_id"));
       setrooms(json);
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching or parsing data:", error);
     }
+    
   };
   const join_room = async (room_id) => {
     // //console.log(requestBody);
@@ -43,18 +52,22 @@ function roomstate(props) {
   };
 
   const fetchmessages = async (room_id) => {
-    // //console.log(room_id)
-    const response = await fetch(`${host}/messages/fetchmessages`, {
-      method: "Post",
-      headers: {
-        "Content-Type": "application/json",
-        token: await AsyncStorage.getItem("chat"),
-      },
-      body: JSON.stringify({ room_id }),
-    });
-    const json = await response.json();
-    setroom_messages(json);
-    console.log(user_id)
+    try {
+      const response = await fetch(`${host}/messages/fetchmessages`, {
+        method: "Post",
+        headers: {
+          "Content-Type": "application/json",
+          token: await AsyncStorage.getItem("chat"),
+        },
+        body: JSON.stringify({ room_id }),
+      });
+      const json = await response.json();
+      setroom_messages(json);
+      console.log(user_id)
+      // //console.log(room_id)
+    } catch (error) {
+      
+    }
   };
   const addmessages = async (to, message) => {
     //console.log(to)
@@ -81,6 +94,7 @@ function roomstate(props) {
         fetchmessages,
         room_messages,
         user_id,
+        setuserid,
         selectedroomid,
         setselectedroomid,
         addmessages,

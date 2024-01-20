@@ -26,7 +26,6 @@ router.post("/createuser", (req, res) => {
       res.json({token, "user":newuser.name,"user_id":newuser._id})
   });
 })
-
 router.post("/login", async (req, res) => {
   try {
     const { password, email } = req.body;

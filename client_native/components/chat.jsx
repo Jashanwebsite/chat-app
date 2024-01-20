@@ -1,98 +1,108 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { View, Text, TextInput,Keyboard, FlatList, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  SafeAreaView,
+  Keyboard,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import InsetShadow from "react-native-inset-shadow";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "./chatstyle";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "./Header";
 import Roomcontext from "./context/roomcontext";
 import { Socket } from "./socket";
+import { useSelector } from "react-redux";
 
-const ChatMessage = () => {
-  const socket = Socket
-  const context = useContext(Roomcontext)
-  const {selctedroomid,room_messages,addmessages,user_id}= context;
-  //  for sending message to the backend and then to the room ------------------------------------------
-  const handelsendmessage=async(e)=>{
-    e.preventDefault();
-     console.log(message,roomid)
-    await socket.emit("sendmessage", datamessage )
-    
-  }
-    // dictionary for data message that vill be send to backkend
-    // const datamessage ={
-    //   user : user_id,
-    //   message : message,
-    //   room_id : roomid,
-    //   username: username
-    // }
-  // useffect for recived messages as every time message recieved it will give me new message
-  useEffect(() => {
-    socket.on("recievedmessage", ((datamessage)=> {
-      console.log(room_messages)
-      console.log(datamessage)
-      addmessages(datamessage.room_id,datamessage.message)
-    }))
-    return function cleanup() {
-      socket.removeListener("recievedmessage");}
-}, [socket])
-  useEffect(() => {
-   console.log( "user_id",user_id)
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      (event) => {
-        const keyboardHeight = event.endCoordinates.height;
-        console.log('Keyboard height:', keyboardHeight);
-      }
-    );
+const ChatMessage = ({ navigation }) => {
+  const socket = Socket;
+  const context = useContext(Roomcontext);
+  const {
+    selectedroomid,
+    room_messages,
+    addmessages,
+    user_id,
+    fetchmessages,
+    setuserid,
+  } = context;
 
-    // Clean up the listener when the component unmounts
-    return () => {
-      keyboardDidShowListener.remove();
-    };
-  }, []);
   const [newmessage, setnewmessage] = useState({
     id: "",
     message: "",
     sender: "",
   });
-  const data = room_messages
-  // -------------------------------------new 
+
+  const data = room_messages;
+  const [userroom_id, setroom_id] = useState(null);
+  const room_id = useSelector((state) => state.room.room_id);
+  useEffect(() => {
+    const fetchmessage = async () => {
+      console.log("state", room_id);
+      setroom_id(room_id);
+      console.log(`fetching messages start with id ${room_id}`)
+      await fetchmessages(room_id);
+      console.log(`fetching messages end with id ${room_id}}`)
+    };
+    fetchmessage();
+  }, [room_id]);
+
+  useEffect(() => {
+    const getid = async () => {
+      const storedUserIdString = await AsyncStorage.getItem("user_id");
+      const storedUserId = JSON.parse(storedUserIdString);
+      setuserid(storedUserId);
+      // console.log( "selected room id ",selectedroomid)
+      // fetchmessages(selectedroomid);
+    };
+    getid();
+
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      (event) => {
+        const keyboardHeight = event.endCoordinates.height;
+        console.log("Keyboard height:", keyboardHeight);
+      }
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
   const ref = useRef();
+
   const onclick = () => {
-    setdata([...data, newmessage]);
-    console.log(data);
+    addmessages(selctedroomid, newmessage.message);
+    setnewmessage({ id: "", message: "", sender: "" });
   };
+
   useEffect(() => {
     ref.current.scrollToEnd({ animated: false });
-    console.log(newmessage);
-  }, [newmessage]);
+  }, [data]);
+
   const renderItem = ({ item }) => (
-     <View
+    <View
       style={item.from === user_id ? styles.userMessage : styles.otherMessage}
     >
       <Text style={styles.messageText}>{item.message}</Text>
     </View>
-    
   );
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Header />
+        <Header navigation={navigation} room_id={userroom_id} />
       </View>
-      <KeyboardAwareScrollView
+      <FlatList
+        ref={ref}
+        data={data}
+        keyExtractor={(item) => item._id}
+        renderItem={renderItem}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 80} // Adjust as needed
         contentContainerStyle={styles.content}
-        extraScrollHeight={-220}
-        enableOnAndroid
-      >
-        <FlatList
-          ref={ref}
-          data={data}
-          keyExtractor={(item) => item._id}
-          renderItem={renderItem}
-        />
-      </KeyboardAwareScrollView>
+      />
       <View style={styles.footer}>
         <InsetShadow
           containerStyle={styles.footercontent}
@@ -104,9 +114,9 @@ const ChatMessage = () => {
           shadowColor={"white"}
         >
           <TextInput
-            onChangeText={(text) => {
-              setnewmessage({ id: "10", message: text, sender: "user" });
-            }} 
+            onChangeText={(text) =>
+              setnewmessage({ id: "10", message: text, sender: "user" })
+            }
             spellCheck={true}
             placeholderTextColor={"white"}
             style={styles.TextInput}
