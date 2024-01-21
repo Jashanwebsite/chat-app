@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
+// todo check socket connection , send message not woring ,add morefunctionality
 import {
   View,
   Text,
@@ -17,44 +18,65 @@ import { Socket } from "./socket";
 import { useSelector } from "react-redux";
 
 const ChatMessage = ({ navigation }) => {
-  const socket = Socket;
+  const room_id = useSelector((state) => state.room.room_id);
   const context = useContext(Roomcontext);
+
+  const [username,setusername] = useState("")
   const {
-    selectedroomid,
     room_messages,
     addmessages,
     user_id,
     fetchmessages,
     setuserid,
   } = context;
+  const socket = Socket;
+  const [message,setmessage] = useState(room_messages)
+    const [newmessage, setnewmessage] = useState({
+      user : user_id,
+      message : newmessage,
+      room_id : room_id,
+      username: username
+    });
+    const [userroom_id, setroom_id] = useState(null);
 
-  const [newmessage, setnewmessage] = useState({
-    id: "",
-    message: "",
-    sender: "",
-  });
+  const datamessage ={
+    user : user_id,
+    message : newmessage,
+    room_id : room_id,
+    username: username
+  }
+  const handelsendmessage=async(e)=>{
+    setmessage(...room_messages,newmessage)
+     console.log(message,room_id)
+     socket.emit("sendmessage", datamessage )
+  }
 
-  const data = room_messages;
-  const [userroom_id, setroom_id] = useState(null);
-  const room_id = useSelector((state) => state.room.room_id);
+  useEffect(() => {
+    socket.on("recievedmessage", ((datamessage)=> {
+      console.log(room_messages)
+      console.log(datamessage)
+      addmessages(datamessage.room_id,datamessage.message)
+    }))
+    return function cleanup() {
+      socket.removeListener("recievedmessage");}
+}, [socket])
+  //  use effect for fetching messages --------------------------------------------------------------
   useEffect(() => {
     const fetchmessage = async () => {
-      console.log("state", room_id);
+      // console.log("state", room_id);
       setroom_id(room_id);
-      console.log(`fetching messages start with id ${room_id}`)
+      setusername(await AsyncStorage.getItem("username"))
       await fetchmessages(room_id);
-      console.log(`fetching messages end with id ${room_id}}`)
+      // console.log(`fetching messages end with id ${room_id}}`)
     };
     fetchmessage();
-  }, [room_id]);
-
+  }, [room_messages]);
+//  to get user id and other function --------------------------------------------------------------------------
   useEffect(() => {
     const getid = async () => {
       const storedUserIdString = await AsyncStorage.getItem("user_id");
       const storedUserId = JSON.parse(storedUserIdString);
       setuserid(storedUserId);
-      // console.log( "selected room id ",selectedroomid)
-      // fetchmessages(selectedroomid);
     };
     getid();
 
@@ -73,14 +95,9 @@ const ChatMessage = ({ navigation }) => {
 
   const ref = useRef();
 
-  const onclick = () => {
-    addmessages(selctedroomid, newmessage.message);
-    setnewmessage({ id: "", message: "", sender: "" });
-  };
-
   useEffect(() => {
     ref.current.scrollToEnd({ animated: false });
-  }, [data]);
+  }, [newmessage]);
 
   const renderItem = ({ item }) => (
     <View
@@ -97,7 +114,7 @@ const ChatMessage = ({ navigation }) => {
       </View>
       <FlatList
         ref={ref}
-        data={data}
+        data={room_messages}
         keyExtractor={(item) => item._id}
         renderItem={renderItem}
         keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 80} // Adjust as needed
@@ -114,8 +131,8 @@ const ChatMessage = ({ navigation }) => {
           shadowColor={"white"}
         >
           <TextInput
-            onChangeText={(text) =>
-              setnewmessage({ id: "10", message: text, sender: "user" })
+            onChangeText={(text) =>{ setnewmessage(text); }
+             
             }
             spellCheck={true}
             placeholderTextColor={"white"}
@@ -123,7 +140,8 @@ const ChatMessage = ({ navigation }) => {
             placeholder="Enter message"
           />
           <LinearGradient
-            onTouchEnd={() => (newmessage.message === "" ? null : onclick())}
+
+            onTouchEnd={() => (newmessage.message === "" ? null : handelsendmessage())}
             colors={["#84c6f8", "#6498fc", "#4d75fe"]}
             start={{ x: 0.1, y: 0.5 }}
             style={styles.button}

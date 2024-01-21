@@ -15,8 +15,8 @@ const LoginForm = ({navigation}) => {
   const [credential, setCredential] = useState({ email: '', password: '' });
   const onChange = (name, value) => {
     setCredential((prev) => ({ ...prev, [name]: value }));
-    console.log(credential.email)
-    console.log(Api_key)
+    // console.log(credential.email)
+    // console.log(Api_key)
   };
   const apiKey = process.env.Api_key|| Constants.secrets.apiKey  
   const host =  apiKey
@@ -37,6 +37,7 @@ const LoginForm = ({navigation}) => {
        await AsyncStorage.clear()
        await AsyncStorage.setItem("chat",json.token)
        await AsyncStorage.setItem("user_id", JSON.stringify(json.user_id));
+       await AsyncStorage.setItem("username", JSON.stringify(json.user));
        navigation.navigate("Home")
     } else {
 

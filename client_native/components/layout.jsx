@@ -25,30 +25,33 @@ import roomcontext from "./context/roomcontext";
 import { useDispatch } from "react-redux";
 
 const LayoutSlider = ({ navigation }) => {
-  const [joinrooms, setjoinroom] = useState("");
+  const [joinrooms, setjoinroom] = useState({joinroom:""});
   const context = useContext(roomcontext);
   const {
-    selectedroomid,
-    setselectedroomid,
     room,
     join_room,
     fetchroom,
   } = context;
   const socket = Socket;
+  // join input change ---------------------
+  const onjoinroomChange = (name, value) => {
+    setjoinroom((prev) => ({ ...prev, [name]: value }));
+    console.log(joinrooms)
+
+  };
   //  for joining room  ---------------------------------------------------------------------------------------
   const handeljoinclick = (e) => {
     e.preventDefault();
-    join_room({ room_id: joinrooms });
+    join_room({ room_id: joinrooms.joinroom });
   };
   
   const despatch = useDispatch();
   //  handel   click for joining room and other functions  ---------------------------------------------
   const handelmessageclick = (room_id) => (e) => {
   e.preventDefault();
-  // setselectedroomid(room_id);
-  // socket.emit("joined_room", room_id);
-  console.log("room_id", room_id)
-  despatch(login_room_id(room_id))
+  socket.emit("joined_room", room_id);
+  console.log("room_id", room_id);
+  despatch(login_room_id(room_id));
    navigation.navigate("Chat");
 };
   //  use effect for fetchroom
@@ -57,7 +60,6 @@ const LayoutSlider = ({ navigation }) => {
     console.log( "room",room);
   }, []);
 
-  const [islisthover, setislisthover] = useState(null);
   const createTwoButtonAlert = () =>
     Alert.alert("Alert Title", "My Alert Msg", [
       {
@@ -115,11 +117,13 @@ const LayoutSlider = ({ navigation }) => {
               start={{ x: 0.1, y: 0.5 }}
             >
               <TextInput
+               onChangeText={(text) => onjoinroomChange('joinroom', text)}
                 style={style.slider_joinroom_button.joinroom_button.text}
                 placeholder="Join room"
               ></TextInput>
             </LinearGradient>
-            <Pressable style={style.slider_joinroom_button.create_button}>
+            <Pressable style={style.slider_joinroom_button.create_button}
+            onPress={handeljoinclick}>
               <Text style={style.slider_joinroom_button.create_button.text}>
                 +
               </Text>
@@ -133,9 +137,8 @@ const LayoutSlider = ({ navigation }) => {
                 <TouchableOpacity
                   onPress={handelmessageclick(item.room_id)}
                   style={
-                    !islisthover
-                      ? style.listContainer.list
-                      : { ...style.listContainer.list, ...style.hover }
+                    style.listContainer.list
+                      
                   }
                 >
                   <View style={style.list_top}>
@@ -168,9 +171,3 @@ const LayoutSlider = ({ navigation }) => {
 
 export default LayoutSlider;
 
-// const on_list_hover_end = () => {
-//   setislisthover(null);
-// };
-// const on_list_hover_start = (itemId) => {
-//   setislisthover(itemId);
-// };

@@ -1,7 +1,6 @@
 const roomreducer = (state = { room_id: null }, action) => {
   console.log("State:", state);
   console.log("Action:", action);
-
   if (action.type === "login_room_id") {
     console.log("action.data", state.room_id);
     return { room_id: action.data }; // Return a new object with the updated room_id

@@ -38,14 +38,14 @@ function roomstate(props) {
     
   };
   const join_room = async (room_id) => {
-    // //console.log(requestBody);
+    console.log(room_id.room_id);
     const response = await fetch(`${host}/room/joinroom`, {
       method: "Post",
       headers: {
         "Content-Type": "application/json",
         token: await AsyncStorage.getItem("chat"),
       },
-      body: JSON.stringify({ room_id: room_id }),
+      body: JSON.stringify({ "room_id": room_id.room_id }),
     });
     const json = await response.json();
     setrooms(room.concat(json));
@@ -63,14 +63,13 @@ function roomstate(props) {
       });
       const json = await response.json();
       setroom_messages(json);
-      console.log(user_id)
       // //console.log(room_id)
     } catch (error) {
       
     }
   };
   const addmessages = async (to, message) => {
-    //console.log(to)
+    console.log(to)
     const response = await fetch(`${host}/messages/addmessages`, {
       method: "Post",
       headers: {
